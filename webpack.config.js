@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
@@ -8,6 +9,13 @@ module.exports = {
     publicPath: '/dist/',
     filename: 'build.js'
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "享",
+      template: path.join(__dirname,'./src/views/index.html'),
+      inject: true
+    })
+  ],
   module: {
     rules: [
       {
@@ -16,7 +24,6 @@ module.exports = {
         options: {
           loaders: {
           }
-          // other vue-loader options go here
         }
       },
       {
@@ -45,7 +52,8 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  watch: true
 }
 
 if (process.env.NODE_ENV === 'production') {
