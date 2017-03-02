@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import routes from './router'
 import VueResource from 'vue-resource'
 
+const FastClick = require('fastclick')
+FastClick.attach(document.body)
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({

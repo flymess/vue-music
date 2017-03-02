@@ -1,8 +1,9 @@
 var path = require('path')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var vuxLoader = require('vux-loader')
 
-module.exports = {
+const webpackConfig =  {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -43,7 +44,8 @@ module.exports = {
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
-    }
+    },
+    extensions: ['.js', '.vue', '.json']
   },
   devServer: {
     historyApiFallback: true,
@@ -55,6 +57,33 @@ module.exports = {
   devtool: '#eval-source-map',
   watch: true
 }
+
+module.exports = vuxLoader.merge(webpackConfig, {
+  options: {},
+  plugins: [
+    {
+    name: 'vux-ui'
+    },
+    {
+      name: 'script-parser',
+      fn: function (source) {
+        return source.replace('VARIABLE', 'v2')
+      }
+    },
+    {
+      name: 'style-parser',
+      fn: function (source) {
+        return source.replace('black', 'white')
+      }
+    },
+    {
+      name: 'js-parser',
+      fn: function (source) {
+        return source.replace('black', 'white')
+      }
+    }
+  ]
+})
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
