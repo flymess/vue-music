@@ -10,6 +10,8 @@
             <span class="td-icon-search"></span>
         </div>
 
+        <sign></sign>
+
         <Masker v-for="n in 10">
             <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
             <div slot="content" class="m-title" flex="dir:top box:last">
@@ -31,6 +33,7 @@
 
 <script>
   import {Masker} from 'vux'
+  import sign from './component/sidebar/sidebar.vue'
 
   export default {
     data() {
@@ -42,7 +45,8 @@
         }
     },
     components: {
-      Masker
+      Masker,
+      sign
     },
     methods: {
         showSidebar() {
