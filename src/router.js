@@ -1,13 +1,12 @@
 /**
  * Created by Administrator on 2017/2/28.
  */
-import App from './App.vue'
 import signin from './component/Login/signin.vue'
 
 export default [
   {
     path: '/',
-    component: App
+    component: resolve => require(['./App.vue'], resolve)
   },
   {
     path: '/login',

@@ -1,5 +1,7 @@
 <template>
-    <div class="side" :style="{height: height + 'px'}">
+    <div class="side"
+         :class="{'change-left': changeLeft}"
+         :style="{height: height + 'px'}">
         <sign-up></sign-up>
     </div>
 </template>
@@ -9,9 +11,13 @@
         position: absolute;
         z-index: 9999;
         top: 0;
-        left:0;
         width:60%;
-        background-image: url("/images/sidebarBackground.jpg");
+        background-image: url("/images/loginBackground.jpg");
+        left:-100%;
+        transition: left .2s;
+    }
+    .change-left{
+        left:0;
     }
 </style>
 
@@ -21,7 +27,8 @@
     export default{
       data() {
         return{
-          height: 0
+          height: 0,
+          changeLeft: false
         }
       },
 

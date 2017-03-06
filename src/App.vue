@@ -10,7 +10,7 @@
             <span class="td-icon-search"></span>
         </div>
 
-        <sign></sign>
+        <sign ref="sidebar"></sign>
 
         <Masker v-for="n in 10">
             <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
@@ -51,6 +51,7 @@
     methods: {
         showSidebar() {
             this.showsidebar = !this.showsidebar
+            this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
         }
     }
   }
