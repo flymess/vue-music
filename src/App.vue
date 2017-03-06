@@ -12,7 +12,7 @@
 
         <sign ref="sidebar"></sign>
 
-        <Scroller lockX ref="scroller" style="position: relative">
+        <Scroller lockX ref="scroller" style="position: relative" height="-50">
             <div>
                 <Masker v-for="n in 10">
                     <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
