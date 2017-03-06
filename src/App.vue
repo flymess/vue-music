@@ -12,27 +12,31 @@
 
         <sign ref="sidebar"></sign>
 
-        <Masker v-for="n in 10">
-            <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
-            <div slot="content" class="m-title" flex="dir:top box:last">
-                <p flex="main:left cross:bottom">点点</p>
-                <div class="content-bottom" flex="main:justify">
-                    <div flex="cross:center">
-                        <span class="td-icon-play">800</span>
-                        <span class="td-icon-add">200</span>
+        <Scroller lockX ref="scroller" style="position: relative">
+            <div>
+                <Masker v-for="n in 10">
+                    <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
+                    <div slot="content" class="m-title" flex="dir:top box:last">
+                        <p flex="main:left cross:bottom">点点</p>
+                        <div class="content-bottom" flex="main:justify">
+                            <div flex="cross:center">
+                                <span class="td-icon-play">800</span>
+                                <span class="td-icon-add">200</span>
+                            </div>
+                            <div>
+                                <span class="td-icon-heart"></span>
+                                <span class="td-icon-bubble"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span class="td-icon-heart"></span>
-                        <span class="td-icon-bubble"></span>
-                    </div>
-                </div>
+                </Masker>
             </div>
-        </Masker>
+        </Scroller>
     </div>
 </template>
 
 <script>
-  import {Masker} from 'vux'
+  import {Masker,Scroller} from 'vux'
   import sign from './component/sidebar/sidebar.vue'
 
   export default {
@@ -46,7 +50,13 @@
     },
     components: {
       Masker,
-      sign
+      sign,
+      Scroller
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.$refs.scroller.reset()
+      })
     },
     methods: {
         showSidebar() {
