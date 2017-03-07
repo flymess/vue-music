@@ -7,6 +7,7 @@
             <x-input title="密码" placeholder="请输入密码" type="password">
                 <span slot="label" class="td-icon td-icon-password"></span>
             </x-input>
+            
         </div>
     </div>
 </template>
