@@ -64,25 +64,6 @@
         color: #FF005A;
     }
 
-    .td-icon-username {
-        margin-right: 10px;
-
-        &:before {
-            font-family: xiang;
-            content: '\e90a';
-        }
-
-    }
-
-    .td-icon-password {
-        margin-right: 10px;
-
-        &:before {
-            font-family: xiang;
-            content: '\e909';
-        }
-    }
-
     .login-button {
         margin: 10px 70px;
     }
