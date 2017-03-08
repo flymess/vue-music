@@ -3,6 +3,7 @@
         <div>
             <x-input name="mobile" placeholder="请输入用户名" type="tel" is-type="china-mobile" keyboard="number">
                 <span slot="label" class="td-icon td-icon-username"></span>
+                <x-button slot="right" class="send" mini @click.native="send">发送验证码</x-button>
             </x-input>
             <x-input title="密码" placeholder="请输入密码" type="password">
                 <span slot="label" class="td-icon td-icon-password"></span>
@@ -19,6 +20,11 @@
         components:{
             XInput,
             XButton
+        },
+        methods:{
+            send: function () {
+                console.log(1)
+            }
         }
     }
 </script>
@@ -45,6 +51,11 @@
             border-top: 0;
         }
 
+    }
+    .send{
+        background:none;
+        border:1px solid rgba(238, 238, 238, 0.27);
+        color: rgba(238, 238, 238, 0.27);
     }
 
     .td-icon {
