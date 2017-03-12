@@ -2,15 +2,12 @@
  * Created by tao on 2017/3/8.
  */
 import Vue from 'vue'
-import { AjaxPlugin } from 'vux'
+import axios from 'axios'
+import user from './user'
 
-Vue.use(AjaxPlugin)
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.baseURL = 'http://localhost:3000/api';
 
-const instance = Vue.$http.create({
-  headers: 'application/x-www-form-urlencoded',
-  responseType: 'json',
-  method: 'post'
-})
-export const sendMessage =  instance.post('https://api.miaodiyun.com/20150822/industrySMS/sendSMS',{
-
-})
+export default {
+  usersign: (data) => axios.post(user.userSign,data)
+}

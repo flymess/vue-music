@@ -9,9 +9,12 @@
   "author": "陶毅翔",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.16.1",
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
     "express": "^4.14.1",
-    "mongoose": "^4.8.5"
+    "express-session": "^1.15.1",
+    "mongoose": "^4.8.5",
+    "sha1": "^1.1.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

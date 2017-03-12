@@ -3,9 +3,8 @@
  */
 const express = require('express')
 const router = express.Router()
+const User = require('../models/user');
 
-router.get('/', (req,res) => {
-  res.send('Hello Express!')
-})
-
-module.exports = router
+module.exports = function (app) {
+  app.use('/api',require('./userSign'))
+}

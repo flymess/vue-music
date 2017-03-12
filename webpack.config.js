@@ -39,8 +39,9 @@ const webpackConfig =  {
           name: '[name].[ext]?[hash]'
         }
       }
-    ]
+    ],
   },
+
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'

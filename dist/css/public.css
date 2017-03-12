@@ -29,3 +29,8 @@ body{
     font-family: xiang;
     content: '\e909';
 }
+
+.td-icon-authCode:before{
+    font-family: xiang;
+    content: '\e90b';
+}
