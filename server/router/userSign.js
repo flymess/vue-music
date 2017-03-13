@@ -18,11 +18,7 @@ router.post('/userSign', (req, res ,next) => {
     avatar: avatar
   }).then(result=> {
     if (result.err) {
-      console.log(result)
-      res.status(10000)
-        .send({
-          message: result.message
-        })
+      res.apiError(result)
     } else {
       res.status(200).apiSuccess()
     }
@@ -38,6 +34,35 @@ router.post('/userSign', (req, res ,next) => {
 },function (err, ret) {
   if (err) return res.apiError(err);
   res.apiSuccess(ret)
+})
+
+router.post('/login', (req, res, next) => {
+  let username = req.body.username;
+  let password = req.body.password;
+
+  password = sha1(password)
+
+  userApi.login({
+    username: username,
+    password: password
+  }) .then(user => {
+    if (user && user.password === password) {
+      res.status(200).apiSuccess()
+    } else {
+      res.apiError({
+        error_code: 500,
+        error_message: '用户名或密码错误'
+      })
+    }
+  })
+    .catch(err => {
+      next(err)
+      res.send({
+        code: -200,
+        message: err.toString()
+      })
+    })
+
 })
 
 module.exports = router

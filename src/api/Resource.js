@@ -9,5 +9,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.baseURL = 'http://localhost:3000/api';
 
 export default {
-  usersign: (data) => axios.post(user.userSign,data)
+  usersign: (data) => axios.post(user.userSign,data),
+  userlogin: (data) => axios.post(user.userLogin, data)
 }

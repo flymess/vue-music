@@ -1,10 +1,10 @@
 <template>
     <div class="login" flex="dir:top main:center cross:center">
         <div>
-            <x-input placeholder="请输入用户名" type="tel" is-type="china-mobile" required>
+            <x-input placeholder="请输入用户名" type="tel" v-model="username" is-type="china-name">
                 <span slot="label" class="td-icon td-icon-username"></span>
             </x-input>
-            <x-input title="密码" placeholder="请输入密码" type="password" required>
+            <x-input title="密码" placeholder="请输入密码" v-model="password" type="password">
                 <span slot="label" class="td-icon td-icon-password"></span>
             </x-input>
             <div class="login-button">
@@ -17,16 +17,48 @@
 
 <script>
   import {XInput, XButton} from 'vux'
+  import {mapActions} from 'vuex'
+  import {go} from '../../libs/router'
 
   export default{
     data() {
       return {
-        show: false
+        show: false,
+        username: '',
+        password: ''
       }
     },
     methods: {
       submit: function () {
         this.show = !this.show
+        let data = {
+          username: this.username,
+          password: this.password
+        }
+        this.$store.dispatch('Login', data).then((user) => {
+          if(user.error_code){
+            this.$vux.toast.show({
+              text: user.error_message,
+              position: 'bottom',
+              width: '10em',
+              type: 'text'
+            })
+          }else {
+            this.$vux.toast.show({
+              text: '登录成功',
+              type: 'success',
+              position: 'default',
+              onHide() {
+                go('/', this.$router)
+              }
+            })
+          }
+        }).catch(() => {
+          this.$vux.toast.show({
+          text: '登录失败',
+          type: 'warn'
+        })
+        })
       }
     },
     components: {

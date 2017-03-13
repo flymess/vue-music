@@ -48,16 +48,30 @@
           username: this.username,
           password: this.password
         }
-        this.$store.dispatch('signUserInfo', params).then(() => {
+        this.$store.dispatch('signUserInfo', params).then((data) => {
           this.show = false
+          if (data.error_code){
+            this.$vux.toast.show({
+              text: data.error_message,
+              position: 'bottom',
+              type: 'text'
+            })
+          }else {
+              this.$vux.toast.show({
+                text: '注册成功',
+                position: 'default',
+                type: 'success',
+                onHide() {
+                  go('/', this.$router)
+                }
+              })
+          }
+        }).catch((res) => {
           this.$vux.toast.show({
-            text: '注册成功',
-            onHide() {
-              go('/', this.$router)
-            }
+            text: '注册失败',
+            type: 'warn',
+            position: 'default'
           })
-        },() => {
-
         })
       }
     }

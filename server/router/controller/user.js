@@ -11,7 +11,8 @@ module.exports = {
         if(result) {
           return {
             err: true,
-            message: '用户已存在'
+            error_code: 500,
+            error_message: '用户已存在'
           }
         } else {
           let user = new User(data)
@@ -21,5 +22,8 @@ module.exports = {
       .catch(err => {
         console.log(err)
       })
-  }
+  },
+  login: function (data) {
+    return User.findOne({username: data.username}).exec()
+	}
 }
