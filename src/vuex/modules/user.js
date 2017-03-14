@@ -5,7 +5,8 @@ import * as types from '../mutation-types'
 import API from '../../api/Resource'
 
 const state = {
-  userinfo: {}
+  userinfo: {},
+  token: ''
 }
 
 const actions = {
@@ -22,6 +23,7 @@ const actions = {
     return new Promise((res, rej) => {
       API.userlogin(data).then((data) => {
         res(data.data)
+        commit(types.TOKEN, data.data.result)
       }).catch(() => {
         rej()
       })
@@ -29,7 +31,11 @@ const actions = {
 	}
 }
 
-const mutations = {}
+const mutations = {
+  [types.TOKEN](state, data){
+    state.token = data.token
+  }
+}
 
 const getters = {}
 

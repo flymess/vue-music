@@ -10,5 +10,6 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 export default {
   usersign: (data) => axios.post(user.userSign,data),
-  userlogin: (data) => axios.post(user.userLogin, data)
+  userlogin: (data) => axios.post(user.userLogin, data),
+  userInfo: () => axios.get(user.userInfo)
 }

@@ -3,5 +3,6 @@
  */
 export default {
   userSign: '/userSign',
-  userLogin: '/login'
+  userLogin: '/login',
+  userInfo: '/userinfo'
 }

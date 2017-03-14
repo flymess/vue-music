@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './router'
+import Vuex from 'vuex'
 import store from './vuex/store'
 import { AjaxPlugin } from 'vux'
 import { ToastPlugin } from 'vux'

@@ -17,7 +17,7 @@
                 <Masker v-for="n in 10">
                     <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
                     <div slot="content" class="m-title" flex="dir:top box:last">
-                        <p flex="main:left cross:bottom">点点</p>
+                        <p flex="main:left cross:bottom">{{}}</p>
                         <div class="content-bottom" flex="main:justify">
                             <div flex="cross:center">
                                 <span class="td-icon-play">800</span>
@@ -37,15 +37,16 @@
 
 <script>
   import {Masker,Scroller} from 'vux'
+  import {mapState} from 'vuex'
   import sign from './component/sidebar/sidebar.vue'
 
   export default {
     data() {
         return {
-            activeColor: {
-                color: '#FF005A'
-            },
-            showsidebar: false
+          activeColor: {
+            color: '#FF005A'
+          },
+          showsidebar: false
         }
     },
     components: {

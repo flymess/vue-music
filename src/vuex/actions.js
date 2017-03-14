@@ -10,3 +10,9 @@ export const sendMessage = ({commit}, accountSid, smsContent, to, timestamp, sig
       commit(types.SEND_MESSAGE, req.data)
     })
 }
+
+export const getUserInfo = ({commit}) => {
+  api.userInfo().then(() => {
+
+  })
+}

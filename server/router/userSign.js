@@ -5,6 +5,8 @@ const express = require('express')
 const router = express.Router()
 const sha1 = require('sha1')
 const userApi = require('./controller/user');
+const createToken = require('../middleware/createToken');
+const checkToken = require('../middleware/checkToken');
 
 router.post('/userSign', (req, res ,next) => {
   let username = req.body.username;
@@ -36,6 +38,10 @@ router.post('/userSign', (req, res ,next) => {
   res.apiSuccess(ret)
 })
 
+router.get('/userinfo',checkToken ,(req, res, next) => {
+
+})
+
 router.post('/login', (req, res, next) => {
   let username = req.body.username;
   let password = req.body.password;
@@ -47,7 +53,9 @@ router.post('/login', (req, res, next) => {
     password: password
   }) .then(user => {
     if (user && user.password === password) {
-      res.status(200).apiSuccess()
+      res.status(200).apiSuccess({
+        token: createToken(username)
+      })
     } else {
       res.apiError({
         error_code: 500,

@@ -30,7 +30,7 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    user
+    user: user
   },
   mutations,
   strict: process.env.NODE_ENV !== 'production'

@@ -44,12 +44,13 @@
               type: 'text'
             })
           }else {
+            var _this = this
             this.$vux.toast.show({
               text: '登录成功',
               type: 'success',
               position: 'default',
-              onHide() {
-                go('/', this.$router)
+              onHide(){
+                go({path: '/'}, _this.$router)
               }
             })
           }
