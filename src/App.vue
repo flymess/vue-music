@@ -4,7 +4,7 @@
             <span class="td-icon-sidebar" @click="showSidebar" :style="[showsidebar ? activeColor : '']"></span>
             <div class="tab" flex="main:center">
                 <span class="td-icon-recommend"></span>
-                <span class="td-icon-unload"></span>
+                <span class="td-icon-unload" @click="upload"></span>
                 <span class="td-icon-find"></span>
             </div>
             <span class="td-icon-search"></span>
@@ -17,7 +17,7 @@
                 <Masker v-for="n in 10">
                     <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
                     <div slot="content" class="m-title" flex="dir:top box:last">
-                        <p flex="main:left cross:bottom">{{}}</p>
+                        <p flex="main:left cross:bottom"></p>
                         <div class="content-bottom" flex="main:justify">
                             <div flex="cross:center">
                                 <span class="td-icon-play">800</span>
@@ -37,8 +37,8 @@
 
 <script>
   import {Masker,Scroller} from 'vux'
-  import {mapState} from 'vuex'
   import sign from './component/sidebar/sidebar.vue'
+  import {go} from './libs/router'
 
   export default {
     data() {
@@ -58,11 +58,15 @@
       this.$nextTick(() => {
         this.$refs.scroller.reset()
       })
+      this.$store.dispatch('getUserInfo')
     },
     methods: {
         showSidebar() {
             this.showsidebar = !this.showsidebar
             this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
+        },
+        upload() {
+            go({name: 'upload'}, this.$router)
         }
     }
   }

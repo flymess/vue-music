@@ -1,6 +1,6 @@
 <template>
     <div class="login" flex="dir:top main:center cross:center">
-        <div>
+        <div style="width:100%">
             <x-input placeholder="请输入用户名" type="tel" v-model="username" is-type="china-name">
                 <span slot="label" class="td-icon td-icon-username"></span>
             </x-input>
@@ -43,6 +43,7 @@
               width: '10em',
               type: 'text'
             })
+            this.show = false
           }else {
             var _this = this
             this.$vux.toast.show({
@@ -59,6 +60,7 @@
           text: '登录失败',
           type: 'warn'
         })
+          this.show = false
         })
       }
     },

@@ -1,8 +1,7 @@
 <template>
     <div class="signin" flex="dir:top main:center cross:center">
-        <div>
-            <x-input name="mobile" placeholder="请输入用户名" v-model="username" type="text" is-type="china-name"
-                     keyboard="number">
+        <div style="width:100%">
+            <x-input name="mobile" placeholder="请输入用户名" v-model="username" type="text" is-type="china-name">
                 <span slot="label" class="td-icon td-icon-username"></span>
             </x-input>
             <x-input title="密码" placeholder="请输入密码" v-model="password" type="password">

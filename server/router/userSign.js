@@ -39,7 +39,6 @@ router.post('/userSign', (req, res ,next) => {
 })
 
 router.get('/userinfo',checkToken ,(req, res, next) => {
-
 })
 
 router.post('/login', (req, res, next) => {

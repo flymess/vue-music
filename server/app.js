@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 const index = require('./router/index');
 const cookieParser = require('cookie-parser');
 const user = require('./router/userSign');
-const captchapng = require('captchapng');
 const session = require('express-session');
 const cors = require('cors');
 
