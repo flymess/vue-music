@@ -2,6 +2,7 @@
 node_modules/
 dist/build.js
 dist/build.js.map
+server/source
 dist/index.html
 npm-debug.log
 yarn-error.log
