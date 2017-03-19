@@ -16,3 +16,13 @@ export const getUserInfo = ({commit}) => {
 
   })
 }
+
+export const upload = ({commit}, data) => {
+  return new Promise((res, rej) => {
+    api.uploadSpecial(data).then(() => {
+      res()
+    },() => {
+      rej()
+    })
+  })
+}

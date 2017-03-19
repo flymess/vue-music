@@ -4,6 +4,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const path = require('path')
 const bodyParser = require('body-parser');
 const index = require('./router/index');
 const cookieParser = require('cookie-parser');
@@ -11,9 +12,12 @@ const user = require('./router/userSign');
 const session = require('express-session');
 const cors = require('cors');
 
+
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cookieParser())
+app.use('/static', express.static('source'));
 
 //响应请求
 function extendAPIOutput(req, res, next) {

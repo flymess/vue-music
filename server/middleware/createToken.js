@@ -9,7 +9,7 @@ app.set('jwtTokenSecret','lxzy');
 module.exports = function (name) {
   const token = jwt.encode({
     iss: name,
-  }, app.set('jwtTokenSecret'))
+  }, app.get('jwtTokenSecret'))
 
   return token
 }

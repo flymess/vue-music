@@ -66,7 +66,18 @@
             this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
         },
         upload() {
-            go({name: 'upload'}, this.$router)
+            let _this = this
+            if (this.$store.state.user.token == ''){
+              this.$vux.toast.show({
+                text: '请先登录',
+                type: 'warn',
+                onHide() {
+                  go({name: 'login'}, _this.$router)
+                }
+              })
+            }else {
+              go({name: 'upload'}, this.$router)
+            }
         }
     }
   }
