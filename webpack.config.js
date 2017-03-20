@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var vuxLoader = require('vux-loader')
 
 const webpackConfig =  {
@@ -10,13 +11,6 @@ const webpackConfig =  {
     publicPath: '/dist/',
     filename: 'build.js'
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: "享",
-      template: path.join(__dirname,'./src/views/index.html'),
-      inject: true
-    })
-  ],
   module: {
     rules: [
       {
@@ -24,6 +18,7 @@ const webpackConfig =  {
         loader: 'vue-loader',
         options: {
           loaders: {
+            less: ExtractTextPlugin.extract({fallback: 'vue-style-loader', use: 'css-loader!less-loader'}),
           }
         }
       },
@@ -38,10 +33,29 @@ const webpackConfig =  {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.style$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ['css-loader', 'less-loader']
+        })
       }
     ],
   },
-
+  plugins: [
+    new ExtractTextPlugin({
+      filename:  (getPath) => {
+        return getPath('css/[name].css').replace('css/js', 'css');
+      },
+      allChunks: true
+    }),
+    new HtmlWebpackPlugin({
+      title: "享",
+      template: path.join(__dirname,'./src/views/index.html'),
+      inject: true
+    })
+  ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'

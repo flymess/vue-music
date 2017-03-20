@@ -34,3 +34,11 @@ body{
     font-family: xiang;
     content: '\e90b';
 }
+
+.td-white-2{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+}

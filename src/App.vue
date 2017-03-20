@@ -26,7 +26,7 @@
                        :empty="empty">
                 </state>
 
-                <Masker v-for="(item, index) in items" @click.na>
+                <Masker v-for="(item, index) in items" @click.native="goSpecial">
                     <div class="m-img" :style="{backgroundImage: 'url('+item.backgroundImage+')'}"></div>
                     <div slot="content" class="m-title" flex="dir:top box:last">
                         <p flex="main:center cross:center">{{item.title}}</p>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {Masker,Scroller} from 'vux'
+  import {Masker, Scroller} from 'vux'
   import sign from './component/sidebar/sidebar.vue'
   import state from './component/Loading/stateLine.vue'
   import {go} from './libs/router'
@@ -57,20 +57,20 @@
 
   export default {
     data() {
-        return {
-          activeColor: {
-            color: '#FF005A'
-          },
-          showsidebar: false,
-          loading: false,
-          error: false,
-          empty: false,
-        }
+      return {
+        activeColor: {
+          color: '#FF005A'
+        },
+        showsidebar: false,
+        loading: false,
+        error: false,
+        empty: false,
+      }
     },
     computed: {
-        ...mapGetters({
-            items: 'GetSpecialList'
-        })
+      ...mapGetters({
+        items: 'GetSpecialList'
+      })
     },
     components: {
       Masker,
@@ -85,46 +85,49 @@
       this.$store.dispatch('getUserInfo')
     },
     methods: {
-        refresh() {
-            var _this = this
-            this.$store.dispatch('getSpecialAction').then(() => {
-                setTimeout(function () {
-                    _this.$refs.scroller.donePulldown()
-                },1000)
-            })
-        },
-        ready() {
-            this.loading = true
-            this.error = false
-            this.empty = false
-            this.$store.dispatch('getSpecialAction').then((data) => {
-                if (isEmptyObject(data)) this.empty = true
-                this.loading = false
-                this.error = false
-            },(err) => {
-                this.loading = false
-                this.error = true
-            })
-        },
-        showSidebar() {
-            this.showsidebar = !this.showsidebar
-            this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
-        },
-        upload() {
-            let _this = this
-            if (this.$store.state.user.token == ''){
-              this.$vux.toast.show({
-                text: '请先登录',
-                position: 'default',
-                type: 'warn',
-                onHide() {
-                  go({name: 'login'}, _this.$router)
-                }
-              })
-            }else {
-              go({name: 'upload'}, this.$router)
+      goSpecial() {
+        go({name: 'special'}, this.$router)
+      },
+      refresh() {
+        var _this = this
+        this.$store.dispatch('getSpecialAction').then(() => {
+          setTimeout(function () {
+            _this.$refs.scroller.donePulldown()
+          }, 1000)
+        })
+      },
+      ready() {
+        this.loading = true
+        this.error = false
+        this.empty = false
+        this.$store.dispatch('getSpecialAction').then((data) => {
+          if (isEmptyObject(data)) this.empty = true
+          this.loading = false
+          this.error = false
+        }, (err) => {
+          this.loading = false
+          this.error = true
+        })
+      },
+      showSidebar() {
+        this.showsidebar = !this.showsidebar
+        this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
+      },
+      upload() {
+        let _this = this
+        if (this.$store.state.user.token == '') {
+          this.$vux.toast.show({
+            text: '请先登录',
+            position: 'default',
+            type: 'cancel',
+            onHide() {
+              go({name: 'login'}, _this.$router)
             }
+          })
+        } else {
+          go({name: 'upload'}, this.$router)
         }
+      }
     }
   }
 </script>
@@ -132,50 +135,52 @@
 <style lang="less">
     @import '~/vux/src/styles/reset.less';
 
-    .header{
-        height:50px;
+    .header {
+        height: 50px;
         width: 100%;
-        font-size:24px;
+        font-size: 24px;
         color: #FF005A;
     }
 
-    .tab{
+    .tab {
         font-size: 18px;
     }
 
-    .tab span{
-        margin:0 20px 0 20px;
+    .tab span {
+        margin: 0 20px 0 20px;
     }
 
-    .td-icon-sidebar{
-        margin-left:10px;
+    .td-icon-sidebar {
+        margin-left: 10px;
         color: #dbdbdb;
     }
-    .td-icon-sidebar:before{
+
+    .td-icon-sidebar:before {
         font-family: xiang;
         content: '\e904';
     }
-    .td-icon-search{
-        margin-right:10px;
+
+    .td-icon-search {
+        margin-right: 10px;
         color: #dbdbdb;
     }
 
-    .td-icon-search:before{
+    .td-icon-search:before {
         font-family: xiang;
         content: '\e905';
     }
 
-    .td-icon-recommend:before{
+    .td-icon-recommend:before {
         font-family: xiang;
         content: '\e906';
     }
 
-    .td-icon-unload:before{
+    .td-icon-unload:before {
         font-family: xiang;
         content: '\e907';
     }
 
-    .td-icon-find:before{
+    .td-icon-find:before {
         font-family: xiang;
         content: '\e908';
     }
@@ -190,75 +195,84 @@
         cursor: pointer;
         border-radius: 2px;
     }
-    .m-title{
-        width:100%;
-        height:100%;
+
+    .m-title {
+        width: 100%;
+        height: 100%;
         color: #fff;
     }
-    .m-title p{
+
+    .m-title p {
         text-align: center;
-        font-size:18px;
-        padding-left:20px;
+        font-size: 18px;
+        padding-left: 20px;
     }
-    .content-bottom{
-        width:100%;
-        height:30px;
-        font-size:12px;
-        padding-left:16px;
+
+    .content-bottom {
+        width: 100%;
+        height: 30px;
+        font-size: 12px;
+        padding-left: 16px;
     }
-    .content-bottom img{
-        width:30px;
-        height:30px;
+
+    .content-bottom img {
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
     }
-    .content-bottom span{
-        font-size:16px;
-    }
-    .content-bottom>div:first-child img{
-        margin-right:10px;
+
+    .content-bottom span {
+        font-size: 16px;
     }
 
-    .content-bottom .td-icon-play{
+    .content-bottom > div:first-child img {
+        margin-right: 10px;
+    }
+
+    .content-bottom .td-icon-play {
         margin-right: 5px;
         position: relative;
-        top:-2px;
+        top: -2px;
     }
 
-    .content-bottom .td-icon-play:before{
+    .content-bottom .td-icon-play:before {
         font-family: xiang;
         content: '\e901';
-        margin-right:5px;
-        font-size:22px;
+        margin-right: 5px;
+        font-size: 22px;
         position: relative;
-        top:3px;
+        top: 3px;
     }
 
-    .content-bottom .td-icon-add:before{
+    .content-bottom .td-icon-add:before {
         font-family: xiang;
         content: '\e903';
-        margin-right:5px;
-        font-size:18px;
+        margin-right: 5px;
+        font-size: 18px;
         position: relative;
-        top:1px;
+        top: 1px;
     }
 
-    .content-bottom .td-icon-heart{
-        font-size:24px;
-        margin-right:5px;
+    .content-bottom .td-icon-heart {
+        font-size: 24px;
+        margin-right: 5px;
         color: #af1d4e;
         opacity: .8;
     }
-    .content-bottom .td-icon-bubble{
-        font-size:24px;
-        margin-right:5px;
+
+    .content-bottom .td-icon-bubble {
+        font-size: 24px;
+        margin-right: 5px;
         color: #e6e6e6;
         opacity: .8;
     }
-    .td-icon-heart:before{
+
+    .td-icon-heart:before {
         font-family: xiang;
         content: '\e900';
     }
-    .td-icon-bubble:before{
+
+    .td-icon-bubble:before {
         font-family: xiang;
         content: '\e902';
     }
