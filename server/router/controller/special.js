@@ -12,5 +12,12 @@ module.exports = {
     }).catch((err) => {
       console.log(err)
     })
+  },
+  getList: function () {
+    return Special.find({}).then(result => {
+      return result
+    },err => {
+      console.log(err)
+    })
   }
 }

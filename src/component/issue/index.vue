@@ -86,6 +86,7 @@
 </style>
 <script>
   import {Group, XTextarea, XInput, XButton} from 'vux'
+  import {replace} from '../../libs/router'
 
   export default{
     data() {
@@ -104,9 +105,6 @@
       XButton
     },
     methods: {
-      addImage: function () {
-
-      },
       filechooser: function (e) {
         let files = Array.prototype.slice.call(e.target.files);
         var _this = this
@@ -132,6 +130,9 @@
         })
       },
       upload: function () {
+        this.$vux.loading.show({
+            text: '请稍后'
+        })
         let data = new FormData()
         data.append('title', this.title)
         data.append('content', this.container)
@@ -141,7 +142,17 @@
         })
         data.append('token', this.$store.state.user.token)
 
-        this.$store.dispatch('upload', data)
+        this.$store.dispatch('upload', data).then((data) => {
+            let _this = this
+            this.$vux.loading.hide()
+            this.$vux.toast.show({
+                text: '发布成功',
+                type: 'success',
+                onHide() {
+                    replace({path: '/'}, _this.$router)
+                }
+            })
+        })
       }
     }
   }

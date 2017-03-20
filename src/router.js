@@ -5,6 +5,7 @@ import App from './App.vue'
 import signin from './component/Login/signin.vue'
 import login from './component/Login/login.vue'
 import upload from './component/issue/index.vue'
+import special from './component/special/index.vue'
 
 export default [
   {
@@ -25,5 +26,10 @@ export default [
     path: '/upload',
     name: 'upload',
     component: upload
+  },
+  {
+    path: '/special',
+    name: 'special',
+    component: special
   }
 ]

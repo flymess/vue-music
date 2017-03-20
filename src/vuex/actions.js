@@ -19,10 +19,21 @@ export const getUserInfo = ({commit}) => {
 
 export const upload = ({commit}, data) => {
   return new Promise((res, rej) => {
-    api.uploadSpecial(data).then(() => {
-      res()
+    api.uploadSpecial(data).then((data) => {
+      res(data.data.status)
     },() => {
       rej()
+    })
+  })
+}
+
+export const getSpecialAction = ({commit}) => {
+  return new Promise((res, rej) => {
+    api.getSpecial().then((data) => {
+      commit(types.GETSPECIAL, data.data.result)
+      res(data.data.result)
+    },(err) => {
+      rej(err)
     })
   })
 }

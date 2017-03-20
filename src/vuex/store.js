@@ -10,18 +10,25 @@ import user from './modules/user'
 Vue.use(Vuex)
 
 const  state = {
-  authCode: ''
+  authCode: '',
+  SpecialList: {}
 }
 
 const mutations = {
   [types.SEND_MESSAGE](state, data){
     state.authCode = data
+  },
+  [types.GETSPECIAL](state, data){
+    state.SpecialList = data
   }
 }
 
 const getters = {
   getAuthCode: function (state) {
     return state.authCode
+  },
+  GetSpecialList: function (state) {
+    return state.SpecialList
   }
 }
 

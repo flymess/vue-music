@@ -12,12 +12,24 @@
 
         <sign ref="sidebar"></sign>
 
-        <Scroller lockX ref="scroller" style="position: relative" height="-50">
+        <Scroller lockX
+                  ref="scroller"
+                  style="position: relative"
+                  height="-50"
+                  use-pulldown
+                  @on-pulldown-loading="refresh"
+                  :pulldown-config="{content:'下拉刷新',downContent:'下拉刷新',upContent:'释放刷新',loadingContent:'加载中'}">
             <div>
-                <Masker v-for="n in 10">
-                    <div class="m-img" style="backgroundImage: url('https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg')"></div>
+                <state @loadData="ready"
+                       :loading="loading"
+                       :error="error"
+                       :empty="empty">
+                </state>
+
+                <Masker v-for="(item, index) in items" @click.na>
+                    <div class="m-img" :style="{backgroundImage: 'url('+item.backgroundImage+')'}"></div>
                     <div slot="content" class="m-title" flex="dir:top box:last">
-                        <p flex="main:left cross:bottom"></p>
+                        <p flex="main:center cross:center">{{item.title}}</p>
                         <div class="content-bottom" flex="main:justify">
                             <div flex="cross:center">
                                 <span class="td-icon-play">800</span>
@@ -38,7 +50,10 @@
 <script>
   import {Masker,Scroller} from 'vux'
   import sign from './component/sidebar/sidebar.vue'
+  import state from './component/Loading/stateLine.vue'
   import {go} from './libs/router'
+  import {isEmptyObject} from './libs/isEmptyObject'
+  import {mapGetters} from 'vuex'
 
   export default {
     data() {
@@ -46,13 +61,22 @@
           activeColor: {
             color: '#FF005A'
           },
-          showsidebar: false
+          showsidebar: false,
+          loading: false,
+          error: false,
+          empty: false,
         }
+    },
+    computed: {
+        ...mapGetters({
+            items: 'GetSpecialList'
+        })
     },
     components: {
       Masker,
       sign,
-      Scroller
+      Scroller,
+      state
     },
     mounted() {
       this.$nextTick(() => {
@@ -61,6 +85,27 @@
       this.$store.dispatch('getUserInfo')
     },
     methods: {
+        refresh() {
+            var _this = this
+            this.$store.dispatch('getSpecialAction').then(() => {
+                setTimeout(function () {
+                    _this.$refs.scroller.donePulldown()
+                },1000)
+            })
+        },
+        ready() {
+            this.loading = true
+            this.error = false
+            this.empty = false
+            this.$store.dispatch('getSpecialAction').then((data) => {
+                if (isEmptyObject(data)) this.empty = true
+                this.loading = false
+                this.error = false
+            },(err) => {
+                this.loading = false
+                this.error = true
+            })
+        },
         showSidebar() {
             this.showsidebar = !this.showsidebar
             this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
@@ -70,6 +115,7 @@
             if (this.$store.state.user.token == ''){
               this.$vux.toast.show({
                 text: '请先登录',
+                position: 'default',
                 type: 'warn',
                 onHide() {
                   go({name: 'login'}, _this.$router)

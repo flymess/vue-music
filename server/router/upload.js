@@ -23,6 +23,9 @@ router.post('/upload',upload.fields([{name: 'file'}]),checkToken,(req, res, next
   let title = req.body.title;
   let content = req.body.content;
   let backgroundImage = req.body.backgroundImage;
+  if (backgroundImage == ''){
+    backgroundImage = 'https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg'
+  }
   let musicList = []
   let username = req.body.username
 
@@ -43,11 +46,29 @@ router.post('/upload',upload.fields([{name: 'file'}]),checkToken,(req, res, next
     res.status(200).apiSuccess()
   })
     .catch(err => {
-      next(err)
       res.send({
         code:-200,
         message: err.toString()
       })
+      next(err)
+    })
+})
+
+router.get('/getSpecial', function (req, res, next) {
+  specialApi.getList().then(result => {
+    let items = []
+    for (var i = 0;i < result.length;i++){
+      let json = {
+        id: result[i]._id,
+        title: result[i].title,
+        backgroundImage: result[i].backgroundImage
+      }
+      items.push(json)
+    }
+    res.status(200).apiSuccess(items)
+  })
+    .catch(err => {
+      next(err)
     })
 })
 

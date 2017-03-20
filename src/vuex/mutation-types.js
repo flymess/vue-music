@@ -3,3 +3,4 @@
  */
 export const USERINFO_SIGN = 'USERINFO_SIGN';
 export const TOKEN = 'TOKEN';
+export const GETSPECIAL = 'GETSPECIAL';
