@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import * as types from './mutation-types'
 import * as actions from './actions'
 import user from './modules/user'
+import special from './modules/special'
 
 Vue.use(Vuex)
 
@@ -37,7 +38,8 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    user: user
+    user: user,
+    special: special
   },
   mutations,
   strict: process.env.NODE_ENV !== 'production'

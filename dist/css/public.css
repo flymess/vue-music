@@ -35,6 +35,11 @@ body{
     content: '\e90b';
 }
 
+.td-icon-heart:before {
+    font-family: xiang;
+    content: '\e900';
+}
+
 .td-white-2{
     display: -webkit-box;
     -webkit-line-clamp: 2;

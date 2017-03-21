@@ -26,7 +26,7 @@
                        :empty="empty">
                 </state>
 
-                <Masker v-for="(item, index) in items" @click.native="goSpecial">
+                <Masker v-for="(item, index) in items" @click.native="goSpecial(item.id)">
                     <div class="m-img" :style="{backgroundImage: 'url('+item.backgroundImage+')'}"></div>
                     <div slot="content" class="m-title" flex="dir:top box:last">
                         <p flex="main:center cross:center">{{item.title}}</p>
@@ -85,8 +85,8 @@
       this.$store.dispatch('getUserInfo')
     },
     methods: {
-      goSpecial() {
-        go({name: 'special'}, this.$router)
+      goSpecial(id) {
+        go({name: 'special', params: { id: id }}, this.$router)
       },
       refresh() {
         var _this = this
@@ -265,11 +265,6 @@
         margin-right: 5px;
         color: #e6e6e6;
         opacity: .8;
-    }
-
-    .td-icon-heart:before {
-        font-family: xiang;
-        content: '\e900';
     }
 
     .td-icon-bubble:before {

@@ -25,5 +25,8 @@ module.exports = {
   },
   login: function (data) {
     return User.findOne({username: data.username}).exec()
-	}
+	},
+  getUserInfo: function (username) {
+    return User.findOne({username: username}).exec()
+  }
 }

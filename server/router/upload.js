@@ -6,6 +6,7 @@ const router = express.Router();
 const multer  = require('multer');
 const specialApi = require('./controller/special');
 const checkToken = require('../middleware/checkToken');
+const userApi = require('./controller/user')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'source/')
@@ -36,22 +37,28 @@ router.post('/upload',upload.fields([{name: 'file'}]),checkToken,(req, res, next
     })
   }
 
-  specialApi.upload({
-    username: username,
-    title: title,
-    content: content,
-    backgroundImage: backgroundImage,
-    musicList: musicList
-  }).then(result => {
-    res.status(200).apiSuccess()
-  })
-    .catch(err => {
-      res.send({
-        code:-200,
-        message: err.toString()
-      })
-      next(err)
+  userApi.getUserInfo(username).then(function (user) {
+    let avatar = user.avatar
+    specialApi.upload({
+      username: username,
+      title: title,
+      content: content,
+      backgroundImage: backgroundImage,
+      musicList: musicList,
+      avatar: avatar
+    }).then(result => {
+      res.status(200).apiSuccess()
     })
+      .catch(err => {
+        res.send({
+          code:-200,
+          message: err.toString()
+        })
+        next(err)
+      })
+  })
+
+
 })
 
 router.get('/getSpecial', function (req, res, next) {
@@ -66,6 +73,22 @@ router.get('/getSpecial', function (req, res, next) {
       items.push(json)
     }
     res.status(200).apiSuccess(items)
+  })
+    .catch(err => {
+      next(err)
+    })
+})
+
+router.get('/getSpecialDetail', function (req, res, next) {
+  specialApi.getSpecialDetail(req.query.id).then(result => {
+    let data = {
+      username: result.username,
+      title: result.title,
+      content: result.content,
+      backgroundImage: result.backgroundImage,
+      avatar: result.avatar
+    }
+    res.status(200).apiSuccess(data)
   })
     .catch(err => {
       next(err)

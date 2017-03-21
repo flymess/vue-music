@@ -9,7 +9,8 @@ let specialSchema = new Schema({
   title: String,
   content: String,
   backgroundImage: String,
-  musicList: Array
+  musicList: Array,
+  avatar: String
 })
 
 let special = mongoose.model('special', specialSchema);

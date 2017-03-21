@@ -148,10 +148,18 @@
             this.$vux.toast.show({
                 text: '发布成功',
                 type: 'success',
+                position: 'default',
                 onHide() {
                     replace({path: '/'}, _this.$router)
                 }
             })
+        }, err => {
+          this.$vux.loading.hide()
+          this.$vux.toast.show({
+            text: '请求失败',
+            type: 'cancel',
+            position: 'default'
+          })
         })
       }
     }

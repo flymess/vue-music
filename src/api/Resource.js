@@ -7,7 +7,7 @@ import axios from 'axios'
 import user from './user'
 import special from './special'
 
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.baseURL = 'http://localhost:3000/api';
 
 let uploading = axios.create({
@@ -23,5 +23,7 @@ export default {
   userlogin: (data) => axios.post(user.userLogin, data),
   userInfo: () => axios.get(user.userInfo),
   uploadSpecial: (data) => uploading.post(upload.uploadFile, data),
-  getSpecial: () => axios.get(special.getSpecial)
+  getSpecial: () => axios.get(special.getSpecial),
+  getSpecialDetail: (id) => axios.get(special.getSpecialDetail, {params: {id: id}}),
+  getSpecialMusicList: (id) => axios.get(special.getSpecialMusicList, id)
 }

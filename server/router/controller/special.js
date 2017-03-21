@@ -19,5 +19,13 @@ module.exports = {
     },err => {
       console.log(err)
     })
+  },
+  getSpecialDetail: function (id) {
+    return Special.findOne({_id: id})
+      .then(result => {
+        return result
+      },err => {
+        console.log(err)
+      })
   }
 }
