@@ -12,13 +12,14 @@
                 </div>
             </header>
         </blur>
-        <group class="specialContent-group" title="简介:">
+        <group class="specialContent-group">
             <div>
+                <header>简介:</header>
                 <p class="specialContent-detail">哦is的金佛is的金佛is的金佛is的金佛高就是DOI父级上DOI父级上DOI金佛is大姐夫iOS的金佛is的金佛生动风景生动风景是东方闪电哦哦的说法</p>
             </div>
         </group>
         <group title="列表:" class="specialContent-group">
-
+            <cell title="不为谁而作的歌"></cell>
         </group>
     </div>
 </template>
@@ -65,6 +66,13 @@
     div.specialContent-group{
         margin-top: -0.77em;
         background: #fff;
+    }
+
+    .specialContent-group header{
+        margin-left:15px;
+        margin-top: 5px;
+        color: #666;
+        font-size:14px;
     }
 </style>
 <script>

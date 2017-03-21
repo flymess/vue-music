@@ -1915,6 +1915,12 @@ div.specialContent-group[data-v-955747a0] {
   margin-top: -0.77em;
   background: #fff;
 }
+.specialContent-group header[data-v-955747a0] {
+  margin-left: 15px;
+  margin-top: 5px;
+  color: #666;
+  font-size: 14px;
+}
 
 .vux-bg-blur {
   z-index: -2;
