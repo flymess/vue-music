@@ -9,7 +9,7 @@ const checkToken = require('../middleware/checkToken');
 const userApi = require('./controller/user')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'source/')
+    cb(null, 'server/source/music')
   },
   filename: function (req, file, cb) {
     let fileFormat = (file.originalname).split(".");
@@ -31,9 +31,11 @@ router.post('/upload',upload.fields([{name: 'file'}]),checkToken,(req, res, next
   let username = req.body.username
 
   for (var i = 0;i < req.files['file'].length;i++){
+    let item = req.files['file'][i].path.split('\\')
+    let path = item[2] + '//' + item[3]
     musicList.push({
       name: req.files['file'][i].originalname.split('.')[0],
-      path: req.files['file'][i].path
+      path: path
     })
   }
 
@@ -90,6 +92,16 @@ router.get('/getSpecialDetail', function (req, res, next) {
     }
     res.status(200).apiSuccess(data)
   })
+    .catch(err => {
+      next(err)
+    })
+})
+
+router.get('/getSpecialMusicList', function (req, res, next) {
+  specialApi.getSpecialMusicList(req.query.id)
+    .then(result => {
+      res.status(200).apiSuccess(result)
+    })
     .catch(err => {
       next(err)
     })

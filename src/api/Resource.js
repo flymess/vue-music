@@ -25,5 +25,5 @@ export default {
   uploadSpecial: (data) => uploading.post(upload.uploadFile, data),
   getSpecial: () => axios.get(special.getSpecial),
   getSpecialDetail: (id) => axios.get(special.getSpecialDetail, {params: {id: id}}),
-  getSpecialMusicList: (id) => axios.get(special.getSpecialMusicList, id)
+  getSpecialMusicList: (id) => axios.get(special.getSpecialMusicList, {params: {id: id}})
 }

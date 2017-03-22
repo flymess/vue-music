@@ -27,5 +27,13 @@ module.exports = {
       },err => {
         console.log(err)
       })
+  },
+  getSpecialMusicList: function (id) {
+    return Special.findById({_id: id})
+      .then(result => {
+        return result.musicList
+      },err => {
+        console.log(err)
+      })
   }
 }

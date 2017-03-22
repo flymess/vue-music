@@ -1,25 +1,25 @@
 <template>
     <div>
-        <blur :blur-amount=40 url="https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg">
+        <blur :blur-amount=40 :url="getSpecialDetail.backgroundImage">
             <header class="specialContent" flex="cross:center box:first">
-                <img src="" alt="" style="width:130px;height:130px;">
+                <img :src="getSpecialDetail.backgroundImage" alt="" style="width:130px;height:130px;">
                 <div>
-                    <p class="td-white-2">专辑标题</p>
+                    <p class="td-white-2">{{getSpecialDetail.title}}</p>
                     <p class="specialContent-userinfo" flex="cross:center">
-                        <img src="" alt="">
-                        <span>昵称</span>
+                        <img :src="getSpecialDetail.avatar" alt="">
+                        <span>{{getSpecialDetail.username}}</span>
                     </p>
                 </div>
             </header>
         </blur>
-        <group class="specialContent-group">
+        <group class="specialContent-group" label-align="right">
             <div>
                 <header>简介:</header>
-                <p class="specialContent-detail">哦is的金佛is的金佛is的金佛is的金佛高就是DOI父级上DOI父级上DOI金佛is大姐夫iOS的金佛is的金佛生动风景生动风景是东方闪电哦哦的说法</p>
+                <p class="specialContent-detail">{{getSpecialDetail.content}}</p>
             </div>
-            <cell title="不为谁而作的歌" class="weui-cell-first">
-                <span slot="icon" style="margin-right: 5px;">1.</span>
-                <span class="td-icon-heart"></span>
+            <cell :title="item.name" class="weui-cell-first" v-for="(item,index) in getSpecialMusicList" @click.native="play(index, item.path)">
+                <span slot="icon" style="margin-right: 5px;">{{index+1}}.</span>
+                <span class="td-icon-heart" :class="[count === index ? 'play-color-red' : '']"></span>
             </cell>
         </group>
     </div>
@@ -31,7 +31,6 @@
     }
 
     .specialContent>img{
-        border:1px solid #000;
         margin-left:20px;
         margin-right:10px;
     }
@@ -74,20 +73,26 @@
         font-size:14px;
     }
 
-    .specialContent-group .weui-cell-first{
-        border-top: 1px solid #D9D9D9;
+    .weui-cell-first{
+        padding-left:5px;
     }
 
-    .specialContent-group .weui-cell-first:before{
-        border-top: 0px;
+    .play-color-red{
+        color: #af1d4e;
     }
 
 </style>
 <script>
     import {Blur,Group,Cell} from 'vux'
     import {mapActions,mapGetters} from 'vuex'
+    import {go} from '../../libs/router'
 
     export default{
+      data() {
+        return {
+          count: null
+        }
+      },
       components: {
         Blur,
         Group,
@@ -102,6 +107,19 @@
       mounted() {
         let id = this.$route.params.id
         this.$store.dispatch('setSpecialDetail', id)
+        this.$store.dispatch('setSpecialMusicList', id)
+                .then(() => {
+
+                })
+                .catch(err => {
+
+                })
+      },
+      methods: {
+        play: function (index, path) {
+            this.count = index
+            go({name: 'player', query: {path: path}}, this.$router)
+        }
       }
     }
 </script>

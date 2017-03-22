@@ -17,7 +17,7 @@ const cors = require('cors');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cookieParser())
-app.use('/static', express.static('source'));
+app.use(express.static(path.join(__dirname,'source')));
 
 //响应请求
 function extendAPIOutput(req, res, next) {
