@@ -8,16 +8,16 @@
         <audio id="music" :src="dataUrl" @canplaythrough="play"></audio>
     </div>
 </template>
-<style>
+<style scoped>
     .audio{
         margin: 5px 40px;
     }
 
-    .td-icon{
+    .audio .td-icon{
         display: inline-block;
-        color: #fff;
-        font-style: normal;
         font-size: 30px;
+        font-style: normal;
+        color: #fff;
     }
 
     .td-icon-listrecord{

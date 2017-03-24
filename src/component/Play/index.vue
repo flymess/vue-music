@@ -1,8 +1,9 @@
 <template>
     <div>
-        <blur url="https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture" :height="xHeight">
+        <blur :url="xUrl" :height="xHeight">
             <audio-player :data-url="musicPath"></audio-player>
             {{musicPath}}
+            https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture
         </blur>
     </div>
 </template>
@@ -30,6 +31,10 @@
                 let xheight = window.innerHeight
                 console.log(xheight)
                 return xheight
+            },
+            xUrl: function () {
+                let url = "https://source.unsplash.com/random/"+ window.innerWidth + "x" + window.innerHeight
+                return url
             }
         }
     }

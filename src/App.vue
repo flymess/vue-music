@@ -79,9 +79,6 @@
       state
     },
     mounted() {
-      this.$nextTick(() => {
-        this.$refs.scroller.reset()
-      })
       this.$store.dispatch('getUserInfo')
     },
     methods: {
@@ -101,6 +98,9 @@
         this.error = false
         this.empty = false
         this.$store.dispatch('getSpecialAction').then((data) => {
+            this.$nextTick(() => {
+                this.$refs.scroller.reset()
+            })
           if (isEmptyObject(data)) this.empty = true
           this.loading = false
           this.error = false
