@@ -1,274 +1,115 @@
 <template>
-    <div>
-        <div flex="box:justify cross:center" class="header">
-            <span class="td-icon-sidebar" @click="showSidebar" :style="[showsidebar ? activeColor : '']"></span>
-            <div class="tab" flex="main:center">
-                <span class="td-icon-recommend"></span>
-                <span class="td-icon-unload" @click="upload"></span>
-                <span class="td-icon-find"></span>
+    <div class="main">
+        <router-view></router-view>
+        <!--固定在下方的播放器-->
+        <blur :url="$store.state.bgImg" v-show="!$store.state.show" :height="50" style="position: fixed;bottom: 0;width: 100%;" @click.native="showPlayer">
+            <div class="play-fixed" flex="main:justify box:last">
+                <div flex="cross:center">
+                    <img :src="$store.state.bgImg" alt="">
+                    <span style="display: inline-block;max-width: 200px;" class="td-white-1">{{$store.state.XTitle}}</span>
+                </div>
+                <div>
+                    <span class="td-icon td-icon-last"></span>
+                    <span class="td-icon td-icon-play" @click.stop="play" :class="[$store.state.playMusic ? 'td-icon-play' : 'td-icon-pause']"></span>
+                    <span class="td-icon td-icon-next"></span>
+                    <audio id="music" :src="musicPath" @canplaythrough="play" v-on:timeupdate="updateNowTime"></audio>
+                </div>
             </div>
-            <span class="td-icon-search"></span>
-        </div>
-
-        <sign ref="sidebar"></sign>
-
-        <Scroller lockX
-                  ref="scroller"
-                  style="position: relative"
-                  height="-50"
-                  use-pulldown
-                  @on-pulldown-loading="refresh"
-                  :pulldown-config="{content:'下拉刷新',downContent:'下拉刷新',upContent:'释放刷新',loadingContent:'加载中'}">
-            <div>
-                <state @loadData="ready"
-                       :loading="loading"
-                       :error="error"
-                       :empty="empty">
-                </state>
-
-                <Masker v-for="(item, index) in items" @click.native="goSpecial(item.id)">
-                    <div class="m-img" :style="{backgroundImage: 'url('+item.backgroundImage+')'}"></div>
-                    <div slot="content" class="m-title" flex="dir:top box:last">
-                        <p flex="main:center cross:center">{{item.title}}</p>
-                        <div class="content-bottom" flex="main:justify">
-                            <div flex="cross:center">
-                                <span class="td-icon-play">800</span>
-                                <span class="td-icon-add">200</span>
-                            </div>
-                            <div>
-                                <span class="td-icon-heart"></span>
-                                <span class="td-icon-bubble"></span>
-                            </div>
-                        </div>
-                    </div>
-                </Masker>
-            </div>
-        </Scroller>
+        </blur>
+        <!--固定在下方的播放器 end-->
+        <transition name="custom-classes-transition" enter-active-class="animated slideInUp fast" leave-active-class="animated slideOutDown" mode="out-in">
+            <player v-if="$store.state.show"></player>
+        </transition>
     </div>
 </template>
 
 <script>
-  import {Masker, Scroller} from 'vux'
-  import sign from './component/sidebar/sidebar.vue'
-  import state from './component/Loading/stateLine.vue'
-  import {go} from './libs/router'
-  import {isEmptyObject} from './libs/isEmptyObject'
-  import {mapGetters} from 'vuex'
+  import {Blur} from 'vux'
+  import axios from 'axios'
+  import player from './component/Play/index.vue'
 
   export default {
     data() {
       return {
-        activeColor: {
-          color: '#FF005A'
-        },
-        showsidebar: false,
-        loading: false,
-        error: false,
-        empty: false,
+        playMusic: true
       }
     },
-    computed: {
-      ...mapGetters({
-        items: 'GetSpecialList'
-      })
-    },
     components: {
-      Masker,
-      sign,
-      Scroller,
-      state
+      player,
+      Blur
+    },
+    computed:{
+      musicPath: function () {
+        return 'http://localhost:3000/' + this.$store.state.musicPath
+      }
     },
     mounted() {
-      this.$store.dispatch('getUserInfo')
+      let url = "http://source.unsplash.com/random/" + window.innerWidth + "x" + window.innerHeight
+      axios.get(url).then(req => {
+        this.$store.dispatch('playMusicBackground', req.request.responseURL)
+      })
     },
     methods: {
-      goSpecial(id) {
-        go({name: 'special', params: { id: id }}, this.$router)
+      showPlayer() {
+        this.$store.dispatch('showMusicAction', true)
       },
-      refresh() {
-        var _this = this
-        this.$store.dispatch('getSpecialAction').then(() => {
-          setTimeout(function () {
-            _this.$refs.scroller.donePulldown()
-          }, 1000)
-        })
-      },
-      ready() {
-        this.loading = true
-        this.error = false
-        this.empty = false
-        this.$store.dispatch('getSpecialAction').then((data) => {
-            this.$nextTick(() => {
-                this.$refs.scroller.reset()
-            })
-          if (isEmptyObject(data)) this.empty = true
-          this.loading = false
-          this.error = false
-        }, (err) => {
-          this.loading = false
-          this.error = true
-        })
-      },
-      showSidebar() {
-        this.showsidebar = !this.showsidebar
-        this.$refs.sidebar.changeLeft = !this.$refs.sidebar.changeLeft
-      },
-      upload() {
-        let _this = this
-        if (this.$store.state.user.token == '') {
-          this.$vux.toast.show({
-            text: '请先登录',
-            position: 'default',
-            type: 'cancel',
-            onHide() {
-              go({name: 'login'}, _this.$router)
-            }
-          })
+      play: function () {
+        let time = parseInt(window.music.duration / 60) + ":" + parseInt(window.music.duration % 60)
+        this.$store.dispatch('musicTimeAction', time)
+        if (this.$store.state.playMusic) {
+          this.playmusic()
         } else {
-          go({name: 'upload'}, this.$router)
+          this.pausemusic()
         }
+      },
+      playmusic: function () {
+        window.music.play()
+        this.$store.dispatch('playMusicAction', false)
+      },
+      pausemusic: function () {
+        window.music.pause()
+        this.$store.dispatch('playMusicAction', true)
+      },
+      updateNowTime: function () {
+        let nowTime = parseInt(window.music.currentTime / 60) + ":" + parseInt(window.music.currentTime % 60)
+        let percent = window.music.currentTime/window.music.duration * 100
+        this.$store.dispatch('musicNowTimeAction', nowTime)
+        this.$store.dispatch('musicProgressAction', percent)
       }
     }
   }
 </script>
 
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
     @import '~/vux/src/styles/reset.less';
 
-    .header {
-        height: 50px;
-        width: 100%;
-        font-size: 24px;
-        color: #FF005A;
+    .main{
+        &::-webkit-scrollbar{
+            display:none;
+        }
     }
 
-    .tab {
-        font-size: 18px;
-    }
-
-    .tab span {
-        margin: 0 20px 0 20px;
-    }
-
-    .td-icon-sidebar {
-        margin-left: 10px;
-        color: #dbdbdb;
-    }
-
-    .td-icon-sidebar:before {
-        font-family: xiang;
-        content: '\e904';
-    }
-
-    .td-icon-search {
-        margin-right: 10px;
-        color: #dbdbdb;
-    }
-
-    .td-icon-search:before {
-        font-family: xiang;
-        content: '\e905';
-    }
-
-    .td-icon-recommend:before {
-        font-family: xiang;
-        content: '\e906';
-    }
-
-    .td-icon-unload:before {
-        font-family: xiang;
-        content: '\e907';
-    }
-
-    .td-icon-find:before {
-        font-family: xiang;
-        content: '\e908';
-    }
-
-    .m-img {
-        padding-bottom: 40%;
-        display: block;
-        position: relative;
-        max-width: 100%;
-        background-size: cover;
-        background-position: center center;
-        cursor: pointer;
-        border-radius: 2px;
-    }
-
-    .m-title {
-        width: 100%;
-        height: 100%;
-        color: #fff;
-    }
-
-    .m-title p {
-        text-align: center;
-        font-size: 18px;
-        padding-left: 20px;
-    }
-
-    .content-bottom {
-        width: 100%;
-        height: 30px;
-        font-size: 12px;
-        padding-left: 16px;
-    }
-
-    .content-bottom img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-    }
-
-    .content-bottom span {
-        font-size: 16px;
-    }
-
-    .content-bottom > div:first-child img {
-        margin-right: 10px;
-    }
-
-    .content-bottom .td-icon-play {
-        margin-right: 5px;
-        position: relative;
-        top: -2px;
-    }
-
-    .content-bottom .td-icon-play:before {
-        font-family: xiang;
-        content: '\e901';
-        margin-right: 5px;
-        font-size: 22px;
-        position: relative;
-        top: 3px;
-    }
-
-    .content-bottom .td-icon-add:before {
-        font-family: xiang;
-        content: '\e903';
-        margin-right: 5px;
-        font-size: 18px;
-        position: relative;
-        top: 1px;
-    }
-
-    .content-bottom .td-icon-heart {
-        font-size: 24px;
-        margin-right: 5px;
-        color: #af1d4e;
-        opacity: .8;
-    }
-
-    .content-bottom .td-icon-bubble {
-        font-size: 24px;
-        margin-right: 5px;
-        color: #e6e6e6;
-        opacity: .8;
-    }
-
-    .td-icon-bubble:before {
-        font-family: xiang;
-        content: '\e902';
+    .play-fixed{
+        height:50px;
+        width:100%;
+        position: fixed;
+        bottom:0px;
+        div{
+            img {
+                width: 40px;
+                height: 40px;
+                margin: 5px;
+                border-radius: 5px;
+            }
+            span{
+                margin-left:10px;
+                font-size:14px;
+            }
+            span.td-icon{
+                display: inline-block;
+                font-size:30px;
+                color: #fff;
+            }
+        }
     }
 </style>

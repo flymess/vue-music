@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="loading" class="td-loading">
-            <spinner type="ripple"></spinner>
+            <loading></loading>
         </div>
         <div v-if="error" class="td-error-line">
             <a href="javascript:;" @click="refresh">网络异常,点击刷新</a>
@@ -15,7 +15,7 @@
 
 <style>
     .td-loading {
-        padding: 40px 0;
+        padding: 120px 0;
         text-align: center;
     }
 
@@ -36,11 +36,11 @@
 
 
 <script>
-    import { Spinner } from 'vux'
+    import Loading from './Loading.vue'
 
     export default{
         components: {
-            Spinner
+            Loading
         },
         props: {
           loading: {

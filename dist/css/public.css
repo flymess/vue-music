@@ -40,6 +40,13 @@ body{
     content: '\e900';
 }
 
+.td-white-1{
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .td-white-2{
     display: -webkit-box;
     -webkit-line-clamp: 2;

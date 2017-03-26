@@ -10,9 +10,19 @@ import special from './modules/special'
 
 Vue.use(Vuex)
 
-const  state = {
+const state = {
   authCode: '',
-  SpecialList: {}
+  SpecialList: {},
+  musicPath: '',
+  playBackground: "",
+  time: '0:0',
+  nowTime: '0:0',
+  percent: 0,
+  playMusic: true,
+  bgImg: '',
+  XTitle: '',
+  show: false,
+  NowPlay: ''
 }
 
 const mutations = {
@@ -21,6 +31,31 @@ const mutations = {
   },
   [types.GETSPECIAL](state, data){
     state.SpecialList = data
+  },
+  [types.SETMUSICURL](state, url){
+    state.musicPath = url
+    state.NowPlay = url
+  },
+  [types.SETMUSICTIME](state, time){
+    state.time = time
+  },
+  [types.SETMUSICNOWTIME](state, nowtime){
+    state.nowTime = nowtime
+  },
+  [types.SETMUSICPROGRESS](state, percent){
+    state.percent = percent
+  },
+  [types.SETPLAYMUSIC](state, playmusic) {
+    state.playMusic = playmusic
+  },
+  [types.SETMUSICBACKGROUND](state, bgImg) {
+    state.bgImg = bgImg
+  },
+  [types.SETMUSICTITLE](state, title) {
+    state.XTitle = title
+  },
+  [types.SETSHOWMUSIC](state, show) {
+    state.show = show
   }
 }
 

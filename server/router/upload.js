@@ -9,7 +9,7 @@ const checkToken = require('../middleware/checkToken');
 const userApi = require('./controller/user')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'server/source/music')
+    cb(null, 'source/music/')
   },
   filename: function (req, file, cb) {
     let fileFormat = (file.originalname).split(".");
@@ -25,14 +25,15 @@ router.post('/upload',upload.fields([{name: 'file'}]),checkToken,(req, res, next
   let content = req.body.content;
   let backgroundImage = req.body.backgroundImage;
   if (backgroundImage == ''){
-    backgroundImage = 'https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg'
+    backgroundImage = 'https://uploadbeta.com/api/pictures/random/?key=推女郎'
   }
   let musicList = []
   let username = req.body.username
 
   for (var i = 0;i < req.files['file'].length;i++){
+    console.log(req.files['file'][i].path)
     let item = req.files['file'][i].path.split('\\')
-    let path = item[2] + '//' + item[3]
+    let path = item[1] + '/' + item[2]
     musicList.push({
       name: req.files['file'][i].originalname.split('.')[0],
       path: path

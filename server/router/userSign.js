@@ -11,7 +11,7 @@ const checkToken = require('../middleware/checkToken');
 router.post('/userSign', (req, res ,next) => {
   let username = req.body.username;
   let password = req.body.password;
-  let avatar = 'http://imgsrc.baidu.com/forum/pic/item/5bf3aacc7cd98d101a6ee0b9283fb80e7aec90aa.jpg'
+  let avatar = 'https://uploadbeta.com/api/pictures/random/?key=推女郎'
   password = sha1(password)
 
   userApi.create({
