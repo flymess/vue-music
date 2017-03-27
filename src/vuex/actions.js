@@ -81,3 +81,13 @@ export const musicTitleAction = ({commit}, title) => {
 export const showMusicAction = ({commit}, show) => {
   commit(types.SETSHOWMUSIC, show)
 }
+
+//加载播放列表
+export const  pushMusicListAction = ({commit}, musicList) => {
+  commit(types.PUSHMUSICLIST, musicList)
+}
+
+//显示播放列表
+export const showMusicListAction = ({ commit }, showMusicList) => {
+  commit(types.SHOWMUSICLIST, showMusicList)
+}

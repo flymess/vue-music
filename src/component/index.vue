@@ -26,7 +26,7 @@
                        :empty="empty">
                 </state>
 
-                <Masker v-for="(item, index) in items" @click.native="goSpecial(item.id)">
+                <Masker v-for="(item, index) in items" :key="index" @click.native="goSpecial(item.id)">
                     <div class="m-img" :style="{backgroundImage: 'url('+item.backgroundImage+')'}"></div>
                     <div slot="content" class="m-title" flex="dir:top box:last">
                         <p flex="main:center cross:center">{{item.title}}</p>

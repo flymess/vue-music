@@ -20,8 +20,10 @@
                 <header>简介:</header>
                 <p class="specialContent-detail">{{getSpecialDetail.content}}</p>
             </div>
-            <cell :title="item.name" class="weui-cell-first" v-for="(item,index) in getSpecialMusicList"
-                  @click.native="play(item.path, item.name)">
+            <cell :title="item.name" class="weui-cell-first"
+                  :key="index"
+                  v-for="(item,index) in getSpecialMusicList"
+                  @click.native="play(item.path, item.name, index)">
                 <span slot="icon" style="margin-right: 5px;">{{index+1}}.</span>
                 <span class="td-icon-heart" :class="[item.path === $store.state.NowPlay ? 'play-color-red' : '']"></span>
             </cell>
@@ -124,21 +126,24 @@
         })
     },
     methods: {
-      play: function (path, name) {
+      play: function (path, name, index) {
         if (path == this.$store.state.NowPlay){
 
         }else {
           this.$store.dispatch('playMusicAction', true)
         }
 
+        this.$store.commit('index', index)
         this.$store.dispatch('musicPathAction', path)
         this.$store.dispatch('musicTitleAction', name)
         this.$store.dispatch('showMusicAction', true)
+        this.$store.dispatch('pushMusicListAction', this.getSpecialMusicList)
         let url = "http://source.unsplash.com/random/" + window.innerWidth + "x" + window.innerHeight
         axios.get(url).then(req => {
           let url = req.request.responseURL
           this.$store.dispatch('playMusicBackground', req.request.responseURL)
         })
+
       }
     }
   }

@@ -9,10 +9,10 @@
                     <span style="display: inline-block;max-width: 200px;" class="td-white-1">{{$store.state.XTitle}}</span>
                 </div>
                 <div>
-                    <span class="td-icon td-icon-last"></span>
+                    <span class="td-icon td-icon-last" @click.stop="lastPlay"></span>
                     <span class="td-icon td-icon-play" @click.stop="play" :class="[$store.state.playMusic ? 'td-icon-play' : 'td-icon-pause']"></span>
-                    <span class="td-icon td-icon-next"></span>
-                    <audio id="music" :src="musicPath" @canplaythrough="play" v-on:timeupdate="updateNowTime"></audio>
+                    <span class="td-icon td-icon-next" @click.stop="nextPlay"></span>
+                    <audio id="music" :src="musicPath" @canplaythrough="play" v-on:timeupdate="updateNowTime" @ended="autoPlayNext"></audio>
                 </div>
             </div>
         </blur>
@@ -62,19 +62,96 @@
           this.pausemusic()
         }
       },
-      playmusic: function () {
+      playmusic() {
         window.music.play()
         this.$store.dispatch('playMusicAction', false)
       },
-      pausemusic: function () {
+      pausemusic() {
         window.music.pause()
         this.$store.dispatch('playMusicAction', true)
       },
-      updateNowTime: function () {
+      updateNowTime() {
         let nowTime = parseInt(window.music.currentTime / 60) + ":" + parseInt(window.music.currentTime % 60)
         let percent = window.music.currentTime/window.music.duration * 100
         this.$store.dispatch('musicNowTimeAction', nowTime)
         this.$store.dispatch('musicProgressAction', percent)
+      },
+      nextPlay() {
+        let index = 0
+        //playMode 0=循环播放 1=随机播放 2=单曲循环
+        if (this.$store.state.playMode == 1){
+            // 更新音乐索引为随机数
+            index = parseInt(Math.random()*(this.$store.state.musicList.length - 1))
+            console.log(index)
+        }else{
+            index = (this.$store.state.index + 1) % this.$store.state.musicList.length
+        }
+
+          //防止随机值是当前播放导致播放状态改变
+          if (this.$store.state.musicList[index].path == this.$store.state.NowPlay){
+              return
+          }
+
+          //更新当前播放 下一曲
+          this.$store.commit('index', index)
+          this.$store.dispatch('musicPathAction', this.$store.state.musicList[index].path)
+          this.$store.dispatch('musicTitleAction', this.$store.state.musicList[index].name)
+
+          //更新播放按钮状态
+          this.$store.dispatch('playMusicAction', true)
+      },
+      lastPlay() {
+          let index = 0
+          //playMode 0=循环播放 1=随机播放 2=单曲循环
+          if (this.$store.state.playMode == 1){
+              // 更新音乐索引为随机数
+              index = parseInt(Math.random()*(this.$store.state.musicList.length - 1))
+          }else{
+              index = (this.$store.state.index - 1 + this.$store.state.musicList.length) % this.$store.state.musicList.length
+          }
+
+          //防止随机值是当前播放导致播放状态改变
+          if (this.$store.state.musicList[index].path == this.$store.state.NowPlay){
+              return
+          }
+
+          //更新当前播放 上一曲
+          this.$store.commit('index', index)
+          this.$store.dispatch('musicPathAction', this.$store.state.musicList[index].path)
+          this.$store.dispatch('musicTitleAction', this.$store.state.musicList[index].name)
+
+          //更新播放按钮状态
+          this.$store.dispatch('playMusicAction', true)
+      },
+      autoPlayNext() {
+          //playMode 0=循环播放 1=随机播放 2=单曲循环
+          let index = 0
+          if (this.$store.state.playMode == 1){
+              // 更新音乐索引为随机数
+              index = parseInt(Math.random()*(this.$store.state.musicList.length - 1))
+          }else if (this.$store.state.playMode == 2){
+              window.music.load()
+              window.music.play()
+              console.log(1)
+              index = this.$store.state.index
+              this.$store.dispatch('playMusicAction', true)
+
+          }else{
+              index = (this.$store.state.index + 1) % this.$store.state.musicList.length
+          }
+
+          //防止随机值是当前播放导致播放状态改变
+          if (this.$store.state.musicList[index].path == this.$store.state.NowPlay){
+              return
+          }
+
+          //更新当前播放 上一曲
+          this.$store.commit('index', index)
+          this.$store.dispatch('musicPathAction', this.$store.state.musicList[index].path)
+          this.$store.dispatch('musicTitleAction', this.$store.state.musicList[index].name)
+
+          //更新播放按钮状态
+          this.$store.dispatch('playMusicAction', true)
       }
     }
   }
@@ -82,12 +159,6 @@
 
 <style lang="less" rel="stylesheet/less">
     @import '~/vux/src/styles/reset.less';
-
-    .main{
-        &::-webkit-scrollbar{
-            display:none;
-        }
-    }
 
     .play-fixed{
         height:50px;

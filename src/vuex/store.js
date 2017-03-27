@@ -22,7 +22,11 @@ const state = {
   bgImg: '',
   XTitle: '',
   show: false,
-  NowPlay: ''
+  NowPlay: '',
+  musicList: [],
+  showMusicList: false,
+  index: 0,
+  playMode: 0
 }
 
 const mutations = {
@@ -56,6 +60,18 @@ const mutations = {
   },
   [types.SETSHOWMUSIC](state, show) {
     state.show = show
+  },
+  [types.PUSHMUSICLIST](state, musicList){
+    state.musicList = musicList
+  },
+  [types.SHOWMUSICLIST](state, showMusicList){
+    state.showMusicList = showMusicList
+  },
+  index(state, index) {
+    state.index = index
+  },
+  chagePlayMode(state, index){
+    state.playMode = index
   }
 }
 
