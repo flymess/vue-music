@@ -98,8 +98,18 @@ It could drastically improve the appearance of the blurred image for content rea
   content: '\E913';
 }
 .play-img {
-  height: 80%;
+  height: 75%;
   width: 100%;
+}
+@media only screen and (max-width: 320px) and (max-height: 480px), only screen and (max-device-width: 320px) and (max-device-height: 480px) {
+.play-img {
+    height: 70%;
+}
+}
+@media only screen and (max-device-width: 414px) and (max-device-height: 736px) {
+.play-img {
+    height: 80%;
+}
 }
 .play-img img {
   border-radius: 50%;

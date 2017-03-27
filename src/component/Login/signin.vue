@@ -46,6 +46,38 @@
     methods: {
       authCode: function () {
         this.show = true
+        if (this.username == '' || this.password == '' || this.password_2 == ''){
+          this.$vux.toast.show({
+            text: '用户名或密码不能为空',
+            type: 'warn',
+            position: 'bottom',
+            width: '10em'
+          })
+          this.username = ''
+          this.password = ''
+          this.password_2 = ''
+          return
+        }else if (this.username.length < 2 || this.username.length > 6){
+          this.$vux.toast.show({
+            text: '用户名不能小于两个字符大于6个字符',
+            type: 'warn',
+            position: 'bottom',
+            width: '10em'
+          })
+          return
+        } else if (this.password != this.password_2){
+          this.$vux.toast.show({
+            text: '两次密码不一致',
+            type: 'warn',
+            position: 'bottom',
+            width: '10em'
+          })
+          this.username = ''
+          this.password = ''
+          this.password_2 = ''
+          return
+        }
+
         let params = {
           username: this.username,
           password: this.password
@@ -56,13 +88,15 @@
             this.$vux.toast.show({
               text: data.error_message,
               position: 'bottom',
-              type: 'text'
+              type: 'text',
+              width: '7.6em'
             })
           } else {
               var _this = this
               this.$vux.toast.show({
               text: '注册成功',
               position: 'default',
+              width: '7.6em',
               type: 'success',
               onHide() {
                 go('/', _this.$router)
@@ -73,6 +107,7 @@
           this.$vux.toast.show({
             text: '注册失败',
             type: 'warn',
+            width: '7.6em',
             position: 'default'
           })
         })
