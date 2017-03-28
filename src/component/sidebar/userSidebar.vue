@@ -1,8 +1,8 @@
 <template>
     <div>
         <header flex="cross:center">
-            <img src="https://cdn.xiaotaojiang.com/uploads/82/1572ec37969ee263735262dc017975/_.jpg"/>
-            <span>转角处</span>
+            <img :src="$store.state.userInfo.avatar"/>
+            <span>{{$store.state.userInfo.username}}</span>
         </header>
         <cell title="我的消息" is-link></cell>
         <cell title="我的收藏" is-link></cell>

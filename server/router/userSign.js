@@ -39,6 +39,14 @@ router.post('/userSign', (req, res ,next) => {
 })
 
 router.get('/userinfo',checkToken ,(req, res, next) => {
+  if (req.body.username){
+    userApi.getUserInfo(req.body.username)
+      .then(user => {
+        res.status(200).apiSuccess(user)
+      })
+  }else {
+    res.status(400).apiError('用户未登录')
+  }
 })
 
 router.post('/login', (req, res, next) => {

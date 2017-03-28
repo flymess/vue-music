@@ -26,7 +26,8 @@ const state = {
   musicList: [],
   showMusicList: false,
   index: 0,
-  playMode: 0
+  playMode: 0,
+  userInfo: {}
 }
 
 const mutations = {
@@ -72,6 +73,9 @@ const mutations = {
   },
   chagePlayMode(state, index){
     state.playMode = index
+  },
+  getUserInfo(state, userinfo){
+    state.userInfo = userinfo
   }
 }
 

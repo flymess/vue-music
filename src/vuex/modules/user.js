@@ -22,6 +22,7 @@ const actions = {
   Login: function ({commit}, data) {
     return new Promise((res, rej) => {
       API.userlogin(data).then((data) => {
+        window.localStorage.token = data.data.result.token
         res(data.data)
         commit(types.TOKEN, data.data.result)
       }).catch(() => {

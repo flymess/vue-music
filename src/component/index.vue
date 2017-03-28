@@ -79,7 +79,14 @@
       state
     },
     mounted() {
-      this.$store.dispatch('getUserInfo')
+      this.$http.get('/userinfo',{
+        headers: {
+          'x-access-token': window.localStorage.token
+        }
+      })
+        .then(data => {
+          this.$store.commit('getUserInfo', data.data.result)
+        })
     },
     methods: {
       goSpecial(id) {
