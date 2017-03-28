@@ -129,16 +129,16 @@
     }
 
     .weui-cell {
-        margin: 10px 70px;
-        border: 1px solid #FF005A;
-        margin-bottom: 40px;
-        border-radius: 10px;
+             margin: 10px 70px;
+             border: 1px solid #FF005A;
+             margin-bottom: 40px;
+             border-radius: 10px;
 
-    &:before {
-        border-top: 0;
-    }
+             &:before {
+                 border-top: 0;
+             }
 
-    }
+         }
     .send {
         background: none;
         border: 1px solid rgba(238, 238, 238, 0.27);

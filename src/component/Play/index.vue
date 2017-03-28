@@ -79,7 +79,7 @@
     }
 
     .play-img {
-        height: 75%;
+        height: 78%;
         width: 100%;
     }
 
@@ -88,10 +88,10 @@
             height:70%;
         }
     }
-    
-    @media only screen and (max-device-width: 414px) and (max-device-height: 736px) {
+
+    @media only screen and (max-width: 375px), only screen and (max-device-width: 375px){
         .play-img{
-            height:80%;
+            height: 75%;
         }
     }
 
