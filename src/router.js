@@ -7,6 +7,7 @@ import signin from './component/Login/signin.vue'
 import login from './component/Login/login.vue'
 import upload from './component/issue/index.vue'
 import special from './component/special/index.vue'
+import profile from './component/myprofile/index.vue'
 
 export default [
   {
@@ -21,6 +22,11 @@ export default [
         path: '/special/:id',
         name: 'special',
         component: special
+      },
+      {
+        path: '/profile',
+        component: profile,
+        name: 'profile'
       }
     ]
   },

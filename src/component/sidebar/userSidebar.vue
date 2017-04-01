@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header flex="cross:center">
+        <header flex="cross:center" @click="goProfile">
             <img :src="$store.state.userInfo.avatar"/>
             <span>{{$store.state.userInfo.username}}</span>
         </header>
@@ -30,11 +30,17 @@
 </style>
 <script>
     import {Cell,Group} from 'vux'
+    import {go} from '../../libs/router.js'
 
     export default{
         components: {
             Cell,
             Group
+        },
+        methods: {
+            goProfile() {
+                go({name: 'profile'}, this.$router)
+            }
         }
     }
 </script>
