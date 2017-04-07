@@ -10,7 +10,16 @@ let UserSchema = new Schema({
     type: String
   },
   password: String,
-  avatar: String
+  avatar: String,
+  address: Array,
+  sex: Number,
+  collecionList: [
+      {
+        title: String,
+        backgroundImage: String,
+        specialId: {type: String}
+    }
+  ]
 },{
   timestamps: true
 })

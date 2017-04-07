@@ -80,4 +80,20 @@ router.post('/login', (req, res, next) => {
 
 })
 
+router.get('/collecion', checkToken, (req, res, next) => {
+  if (req.body.username){
+    userApi.collecionList(req.query.id, req.body.username)
+    .then(result => {
+      res.status(200).apiSuccess({
+        Ok: result
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }else {
+    res.status(400).apiError('用户未登录')
+  }
+})
+
 module.exports = router

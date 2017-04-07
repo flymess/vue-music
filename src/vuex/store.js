@@ -27,7 +27,8 @@ const state = {
   showMusicList: false,
   index: 0,
   playMode: 0,
-  userInfo: {}
+  userInfo: {},
+  collectionId: 0
 }
 
 const mutations = {
@@ -76,6 +77,9 @@ const mutations = {
   },
   getUserInfo(state, userinfo){
     state.userInfo = userinfo
+  },
+  collection(state, collectionId) {
+    state.collectionId = collectionId
   }
 }
 

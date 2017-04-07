@@ -13,7 +13,8 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 let uploading = axios.create({
   baseURL: 'http://localhost:3000/api',
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'x-access-token': window.localStorage.token
   },
   data: FormData
 })
@@ -25,5 +26,6 @@ export default {
   uploadSpecial: (data) => uploading.post(upload.uploadFile, data),
   getSpecial: () => axios.get(special.getSpecial),
   getSpecialDetail: (id) => axios.get(special.getSpecialDetail, {params: {id: id}}),
-  getSpecialMusicList: (id) => axios.get(special.getSpecialMusicList, {params: {id: id}})
+  getSpecialMusicList: (id) => axios.get(special.getSpecialMusicList, {params: {id: id}}),
+  updateProfile: (profile) => axios.post(user.updateProfile, profile)
 }

@@ -4,5 +4,6 @@
 export default {
   userSign: '/userSign',
   userLogin: '/login',
-  userInfo: '/userinfo'
+  userInfo: '/userinfo',
+  updateProfile: '/profile'
 }

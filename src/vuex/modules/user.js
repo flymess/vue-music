@@ -29,12 +29,25 @@ const actions = {
         rej()
       })
     })
-	}
+	},
+  UpdateProfile: function ({commit}, data) {
+    return new Promise((res, rej) => {
+      API.updateProfile(data).then(() => {
+        commit(types.UPDATEPROFILE, data.data.result)
+        res()
+      }, () => {
+        rej()
+      })
+    })
+  }
 }
 
 const mutations = {
   [types.TOKEN](state, data){
     state.token = data.token
+  },
+  [types.UPDATEPROFILE](state, data){
+    state.userinfo = data
   }
 }
 

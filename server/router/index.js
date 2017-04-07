@@ -9,4 +9,5 @@ const Special = require('../models/special');
 module.exports = function (app) {
   app.use('/api',require('./userSign'))
   app.use('/api', require('./upload'))
+  app.use('/api', require('./profile'))
 }

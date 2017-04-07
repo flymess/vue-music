@@ -33,7 +33,7 @@
                         <div class="content-bottom" flex="main:justify">
                             <div flex="cross:center">
                                 <span class="td-icon-play">800</span>
-                                <span class="td-icon-add">200</span>
+                                <span class=" td-icon-add" @click.stop="collection(item.id)">200</span>
                             </div>
                             <div>
                                 <span class="td-icon-heart"></span>
@@ -54,6 +54,7 @@
   import {go} from '../libs/router'
   import {isEmptyObject} from '../libs/isEmptyObject'
   import {mapGetters} from 'vuex'
+  import axios from 'axios'
 
   export default{
     data() {
@@ -64,7 +65,8 @@
         showsidebar: false,
         loading: false,
         error: false,
-        empty: false
+        empty: false,
+        collectionId: 1
       }
     },
     computed: {
@@ -141,6 +143,54 @@
         } else {
           go({name: 'upload'}, this.$router)
         }
+      },
+      collection(id) {
+        let _this = this
+        if (this.$store.state.user.token == '') {
+          this.$vux.toast.show({
+            text: '请先登录',
+            position: 'default',
+            type: 'cancel',
+            onHide() {
+              go({name: 'login'}, _this.$router)
+            }
+          })
+        }else {
+          console.log(window.localStorage.token)
+           this.$http.get('/collecion',{
+              headers: {
+                'x-access-token': window.localStorage.token
+              },
+              params: {
+                id: id
+              }
+            }).then(data => {
+              this.collectionId = data.data.result.Ok
+              this.$store.commit('collection', data.data.result.Ok)
+              if (data.data.result.Ok == 0) {
+                this.$vux.toast.show({
+                text: '已收藏',
+                position: 'default',
+                type: 'success',
+                })
+              }else {
+                this.$vux.toast.show({
+                text: '取消收藏',
+                position: 'default',
+                type: 'success',
+                })
+              }
+           }, () => {
+            this.$vux.toast.show({
+            text: '收藏失败',
+            position: 'default',
+            type: 'cancel',
+            onHide() {
+            }
+          })
+           })
+        }
+
       }
     }
   }
@@ -283,4 +333,15 @@
         font-family: xiang;
         content: '\e902';
     }
+
+    .content-bottom .td-icon-collection:before{
+      font-family: xiang;
+      content: '\e914';
+      margin-right: 5px;
+      font-size: 18px;
+      position: relative;
+      top: 1px;
+      color: #af1d4e;
+    }
+
 </style>
