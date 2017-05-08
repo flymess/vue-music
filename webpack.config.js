@@ -5,11 +5,15 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var vuxLoader = require('vux-loader')
 
 const webpackConfig =  {
-  entry: './src/main.js',
+  entry: {
+    vendor:['vue','vuex','vue-router'],
+    home: path.join(__dirname, './src/main.js')
+  },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.join(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'js/[name].build.js',
+    chunkFilename: 'js/[chunkhash:8].js'
   },
   module: {
     rules: [
@@ -40,10 +44,25 @@ const webpackConfig =  {
           fallback: "style-loader",
           use: ['css-loader', 'less-loader']
         })
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000
+            }
+          }
+        ]
       }
     ],
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      minChunks: Infinity //Infinity
+    }),
     new ExtractTextPlugin({
       filename:  (getPath) => {
         return getPath('css/[name].css').replace('css/js', 'css');
