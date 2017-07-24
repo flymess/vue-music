@@ -158,7 +158,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-    @import '~/vux/src/styles/reset.less';
+    /*@import '~/vux/src/styles/reset.less';*/
 
     .play-fixed{
         height:50px;
