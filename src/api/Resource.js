@@ -8,10 +8,10 @@ import user from './user'
 import special from './special'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.baseURL = 'http://localhost:3000/api';
+axios.defaults.baseURL = 'http://117.122.242.231:3000/api';
 
 let uploading = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: 'http://117.122.242.231:3000/api',
   headers: {
     'Content-Type': 'multipart/form-data',
     'x-access-token': window.localStorage.token
